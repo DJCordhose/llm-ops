@@ -36,14 +36,6 @@ You might want control over
   * Part of the Transformer architecture focused on generating sequential output based on the interpreted inputs or prior outputs
   * Instrumental for GPT-style Models like Llama, Mistral or OpenAI GPT
 
-### Decoder On-Prem Challenges
-* Context sizes vary (depending on the Model)
-  * with large contexts certain positions might be blind spots
-* Memory consumption grows with context used
-* Scaling to more than one parallel request
-
-*Inference on GPU only* 
-
 ### Comparing active GPU microarchitectures
 * T4/RTX 20: https://en.wikipedia.org/wiki/Turing_(microarchitecture)
   * V100 - professional variant of RTX 20 consumer line: https://en.wikipedia.org/wiki/Volta_(microarchitecture)
@@ -56,17 +48,73 @@ You might want control over
 
 ## Use Case
 
+* Medical assessment
+* Weird use of language
+* Completely made up, but realistic
+* Binary classification, e.g.
+  * Negative:  "No specific findings can be derived from the diagnosis currently named as the basis for the regulation.",
+  * Positive: "Socio-medical indication for the aid is confirmed.",
+* Multi lingual: European, American
+* Just a handful of examples available
 
-## Epochs
+## Past - Encoder Models
 
-### Past - Encoder Models
+
+### Encoder Models
+
+* Well understood and mature
+* Inference on CPU possible
+* Training on pretty much any GPU
+  * With a few tricks even training on CPU possible in seconds
+* Useful for predicting categories / binary
+* Limited usefulness for QA
+  * can only predict range in original text
+* Not sufficient for generation
+
+### Demo
+
 Transformer on CPU: https://colab.research.google.com/github/DJCordhose/llm-ops/blob/main/Past.ipynb
 
-* https://arxiv.org/pdf/2209.11055
-* https://sbert.net/
-* https://huggingface.co/blog/setfit
+## Present - Small to medium Decoder Models
 
-### Present - Small to medium Decoder Models
+## Decoder Models
+* General models
+* Can generate answers
+* Work without training
+  * Might also benefit from few shot learning
+  * Are extremely costly to train, impractical for almost everyone
+
+### Decoder On-Prem Challenges
+* Context sizes vary (depending on the Model)
+  * with large contexts certain positions might be blind spots
+* Memory consumption grows with context used
+* Scaling to more than one parallel request
+
+*Inference on GPU only* 
+
+### Limiting factor is RAM
+* T4: 16GB
+* A100: 40GB/80GB
+* L4: 24GB (L40: 48GB)
+
+### Options
+Use Model with 
+1. smaller number of parameters with full resolution (16-Bit)
+2. larger number, but lower resolution
+   * https://huggingface.co/docs/transformers/main/en/quantization/overview
+   * 8-Bit integer or 4-Bit float common choices
+
+*Context might still need more memory than parameters*
+
+### Bitsandbytes
+Most straight forward approach to quantization
+* https://huggingface.co/docs/text-generation-inference/conceptual/quantization#quantization-with-bitsandbytes 
+* Deep Dive: https://huggingface.co/blog/hf-bitsandbytes-integration  
+* Can go down to 4 Bits: https://huggingface.co/blog/4bit-transformers-bitsandbytes  
+* Inference can be slower than more sophisticated methods (like GPTQ) or full FP16 precision: https://huggingface.co/blog/hf-bitsandbytes-integration#is-it-faster-than-native-models 
+
+
+### Demo
 * https://colab.research.google.com/github/DJCordhose/llm-ops/blob/main/Present.ipynb
   * small LLM on widely available and affordable GPU Quantized on T4 (16 GB)
   * Full resolution on L4 (24 GB), fast and sensible, but you have to pay up
@@ -77,9 +125,77 @@ Transformer on CPU: https://colab.research.google.com/github/DJCordhose/llm-ops/
   * https://huggingface.co/microsoft/Phi-3-medium-128k-instruct
 * OpenAI models as a baseline: https://colab.research.google.com/github/DJCordhose/llm-ops/blob/main/Present-OpenAI.ipynb  
 
-### Future - Top Decoder Models
+
+## Future - Top Decoder Models
+
+### The future is already there, it is just not evenly distributed
+* There are more powerful versions of OS decoder models available
+  * Rival OpenAI GPT models
+  * Support for major European languages
+* Those models will run on available hardware and dedicated inference server
+  * H100 GPUs are are expensive, but available
+  * Inference servers optimize for latency and throughput
+    * https://huggingface.co/docs/text-generation-inference
+    * https://developer.nvidia.com/nim  
+* We can get a preview
+  * https://build.nvidia.com/explore/discover 
+  * https://huggingface.co/chat/ 
+
+### Option: Mixtral 8x7B
+* Good context length: 24K input, 8K output
+* explicitly tuned for European languages (like French, Italian, German and Spanish)
+* Mixture of experts
+  * only uses fraction of parameters at a time
+  * thus also bringing down KV-cache needs
+
+Reference
+* https://mistral.ai/news/mixtral-of-experts/ 
+* https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1  
+* Sparse Mixture of Experts (SMoE) Mixtral 8x7B: https://arxiv.org/abs/2401.04088 
+
+
+### Option: Llama 3.1 70B
+* Even better context length: 128k
+* Supported languages: English, German, French, Italian, Portuguese, Hindi, Spanish, and Thai.
+* Significantly better scores in European languages than 8B version
+* Compared to Mixtral 8x7B
+  * significantly better scores all over
+  * Needs more memory and compute
+
+Reference
+* https://huggingface.co/meta-llama/Meta-Llama-3.1-70B-Instruct
+* https://ai.meta.com/blog/meta-llama-3-1/ 
+* https://llama.meta.com/ 
+
+### It works
+Mixtral 8x7B on 2xH100 NVL using TGI
+
+![image](https://github.com/user-attachments/assets/7c9eac4f-d5f0-4c59-b30b-709081b0c471)
+
+### Demo
 * large LLMs on Huggingface chat: 
   * https://huggingface.co/chat/models/meta-llama/Meta-Llama-3.1-70B-Instruct
   * https://huggingface.co/chat/models/mistralai/Mixtral-8x7B-Instruct-v0.1
 * large LLM that really runs only on expensive hardware, preview only, please do not execute: https://colab.research.google.com/github/DJCordhose/llm-ops/blob/main/Future.ipynb
+
+
+### GB200- Future successor to both Hopper and Ada Lovelace
+
+* https://en.wikipedia.org/wiki/Blackwell_(microarchitecture)
+* 2,5x faster than H100
+* 2x memory
+* Native support for 4 Bit resolution 
+* Sped up NVLink
+
+### Alternative for local machine (without NVIDIA GPU)
+* llama.cpp
+  * https://github.com/ggerganov/llama.cpp/blob/master/README.md
+  * https://www.theregister.com/2024/07/14/quantization_llm_feature/ 
+  * Quantization and optimization
+  * Optimized for Apple Silicon M1/M2/M3/M4
+* Ollama
+  * Simplifies usage of llama.cpp
+  * https://ollama.com/  
+  * https://github.com/ollama/ollama 
+  * https://www.theregister.com/2024/03/17/ai_pc_local_llm/ 
 
