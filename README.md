@@ -77,7 +77,7 @@ Transformer on CPU: https://colab.research.google.com/github/DJCordhose/llm-ops/
 
 ## Present - Small to medium Decoder Models
 
-## Decoder Models
+### Decoder Models
 * General models
 * Can generate answers
 * Work without training
