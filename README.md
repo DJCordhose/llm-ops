@@ -8,7 +8,13 @@ Past, Present, and Future of LLM Operations
 1. Create an access token and save it for later use in the notebooks: https://huggingface.co/settings/tokens
 1. Request access to gated Huggingface models:
    1. https://huggingface.co/meta-llama/Meta-Llama-3.1-8B-Instruct 
-   1. https://huggingface.co/google/gemma-2-2b-it
+   1. https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct
+
+## Notebooks
+* https://colab.research.google.com/github/DJCordhose/llm-ops/blob/main/Past.ipynb
+* https://colab.research.google.com/github/DJCordhose/llm-ops/blob/main/Present.ipynb
+* https://colab.research.google.com/github/DJCordhose/llm-ops/blob/main/Present-OpenAI.ipynb
+* https://colab.research.google.com/github/DJCordhose/llm-ops/blob/main/Future.ipynb
 
 ## Motivation / Intro
 
