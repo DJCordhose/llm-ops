@@ -1,5 +1,9 @@
 # llm-ops
-Past, Present, and Future of LLM Operations
+Past, Present, and Future of on-prem LLM Operations
+
+https://bit.ly/odsc-2024-on-prem-llm
+
+![](./bit.ly_odsc-2024-on-prem-llm.png)
 
 ## Prerequisites 
 1. Create a Google Account (if you do not have one, yet): https://accounts.google.com/  
@@ -194,7 +198,7 @@ Mixtral 8x7B on 2xH100 NVL using TGI
 * Native support for 4 Bit resolution 
 * Sped up NVLink
 
-### Alternative for local machine (without NVIDIA GPU)
+### Alternatives for local machine (without NVIDIA GPU)
 * llama.cpp
   * https://github.com/ggerganov/llama.cpp/blob/master/README.md
   * https://www.theregister.com/2024/07/14/quantization_llm_feature/ 
@@ -206,3 +210,73 @@ Mixtral 8x7B on 2xH100 NVL using TGI
   * https://github.com/ollama/ollama 
   * https://www.theregister.com/2024/03/17/ai_pc_local_llm/ 
 
+## Evaluation
+
+### Hints / Generals Rules of Thumb
+* Especially important for smaller / weaker models
+* If you spend a lot of time prompting, your model most like is not up to the task
+* Accept defeat, don't overfit
+* A more powerful model might be a game changer
+
+### Online Evaluation - Sanity Check (local)
+* Local quality / sanity check
+* Results come with uncertainty, translate for UX
+* Tells user what to do with results
+* No general statistics
+* Low Latency
+* Displayed in a way comprehensible for the user, e.g. a traffic sign
+  * green: result can be trusted
+  * yellow: check result
+  * red: don't even show result
+* highlighting / display sources in context information
+  * what part of context is relevant and why and
+  * what part is not and why   
+
+
+### LLM as a judge
+* let an LLM judge the quality of the prediction
+  * either write the prompt yourself or 
+  * let a lib do that for you or
+  * let a lib provide a prompt to write the prompt (G-Eval)
+* compromise between latency / no. requests / quality
+* load / latency of judge often higher than actual prediction
+* Examples from https://docs.confident-ai.com/docs/metrics-llm-evals
+  * _answer relevancy_: does the prediction/answer match the task/question?
+  * _faithfulness / hallucination_: when using context / RAG does the answer align with the it?
+* requiring gt  
+  * _contextual relevancy_: does the contain all the information needed for the answer? 
+
+### Offline Evaluation (global)
+* how well are we doing overall / globally?
+* for us developers
+* can be used for drift detection
+* can be very technical
+* rarely a single dimension
+* can include basic statics
+  * accuracy 
+  * length of answers in
+    * characters
+    * words
+    * bullet points
+* ground truth a problem
+  * how to get? might have to force user entry for a larger sample (faking a red traffic sign)
+  * how to compare y and y_hat?
+  * some (!) metrics work without gt
+* probably displayed in a (Grafana) Dashboard
+
+### Drift detection
+* offline evaluation can be basis for drift detection
+* scores changes a lot
+  * accuracy or 
+  * a criteria
+* distributions changes a lot, e.g.
+  * length of inputs or outputs
+  * processing time / latency
+  * use univariate two-sample tests - choose test based on properties of samples
+* train an Encoder Model to tell old data from new data
+  * if the model has predictive power, there must be a systematic change
+* links  
+  * https://www.evidentlyai.com/blog/data-drift-detection-large-datasets 
+  * https://www.evidentlyai.com/blog/open-source-llm-evaluation#drift-detection 
+  * Failing Loudly: An Empirical Study of Methods for Detecting Dataset Shift: https://arxiv.org/abs/1810.11953 
+  * https://www.evidentlyai.com/blog/embedding-drift-detection 
