@@ -232,7 +232,6 @@ Mixtral 8x7B on 2xH100 NVL using TGI
   * what part of context is relevant and why and
   * what part is not and why   
 
-
 ### LLM as a judge
 * let an LLM judge the quality of the prediction
   * either write the prompt yourself or 
@@ -243,8 +242,11 @@ Mixtral 8x7B on 2xH100 NVL using TGI
 * Examples from https://docs.confident-ai.com/docs/metrics-llm-evals
   * _answer relevancy_: does the prediction/answer match the task/question?
   * _faithfulness / hallucination_: when using context / RAG does the answer align with the it?
-* requiring gt  
-  * _contextual relevancy_: does the contain all the information needed for the answer? 
+* needs gt
+  * is everything relevant in the answer?
+  * is everything in the answer correct?
+  * is anything missing from the answer
+  * _contextual relevancy_: does the context contain all the information needed for the answer? 
 
 ### Offline Evaluation (global)
 * how well are we doing overall / globally?
@@ -258,11 +260,15 @@ Mixtral 8x7B on 2xH100 NVL using TGI
     * characters
     * words
     * bullet points
-* ground truth a problem
-  * how to get? might have to force user entry for a larger sample (faking a red traffic sign)
-  * how to compare y and y_hat?
-  * some (!) metrics work without gt
 * probably displayed in a (Grafana) Dashboard
+
+### Ground Truthn (gt / y)
+* problem for both online and offline evaluation
+* how to get?
+  * initial evaluation phase collecting gt for every prediction
+  * force user entry for a larger sample (faking a red traffic sign) when in production
+* how to compare y and y_hat?
+* some (!) metrics work without gt
 
 ### Drift detection
 * offline evaluation can be basis for drift detection
