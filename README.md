@@ -45,38 +45,7 @@ You might want control over
 * Ecological footprint
 * Stability
 * Politics
-
-## Past - Encoder Models
-
-### Transformers, LLMs, Encoder, Decoder
-![image](https://github.com/user-attachments/assets/5504cc9d-53be-41dc-820a-41ce43287f78)
-
-* *Transformers*: A flexible architecture that uses self-attention to process sequential data efficiently.
-* *LLMs*: Large-scale Transformer models trained on extensive text datasets to perform various language tasks.
-  * *Encoder Models* 
-    * Part of the Transformer architecture focused on understanding and interpreting input data (e.g. BERT)
-    * Instrumental for Embedding Models
-* *Decoder Models*
-  * Part of the Transformer architecture focused on generating sequential output based on the interpreted inputs or prior outputs
-  * Instrumental for GPT-style Models like Llama, Mistral or OpenAI GPT
-
-
-### Encoder Models
-
-* Well understood and mature
-* Inference on CPU possible
-* Training on pretty much any GPU
-  * With a few tricks even training on CPU possible in seconds
-* Useful for predicting categories / binary
-* Limited usefulness for QA
-  * can only predict range in original text
-* Not sufficient for generation
-
-### Demo
-
-Transformer on CPU: https://colab.research.google.com/github/DJCordhose/llm-ops/blob/main/Past.ipynb
-
-## Present - Small to medium Decoder Models
+## Present - Small to medium size Decoder Models
 
 ### Decoder Models
 * General models
@@ -211,7 +180,46 @@ Mixtral 8x7B on 2xH100 NVL using TGI
   * https://github.com/ollama/ollama 
   * https://www.theregister.com/2024/03/17/ai_pc_local_llm/ 
 
-## Evaluation
+
+## Past - Encoder Models
+
+### Transformers, LLMs, Encoder, Decoder
+![image](https://github.com/user-attachments/assets/5504cc9d-53be-41dc-820a-41ce43287f78)
+
+* *Transformers*: A flexible architecture that uses self-attention to process sequential data efficiently.
+* *LLMs*: Large-scale Transformer models trained on extensive text datasets to perform various language tasks.
+  * *Encoder Models* 
+    * Part of the Transformer architecture focused on understanding and interpreting input data (e.g. BERT)
+    * Instrumental for Embedding Models
+* *Decoder Models*
+  * Part of the Transformer architecture focused on generating sequential output based on the interpreted inputs or prior outputs
+  * Instrumental for GPT-style Models like Llama, Mistral or OpenAI GPT
+
+### Encoder Models
+
+* Well understood and mature
+* Inference on CPU possible
+* Training on pretty much any GPU
+  * With a few tricks even training on CPU possible in seconds
+* Useful for predicting categories / binary
+* Limited usefulness for QA
+  * can only predict range in original text
+* Not sufficient for generation
+
+### Demo
+
+Transformer on CPU: https://colab.research.google.com/github/DJCordhose/llm-ops/blob/main/Past.ipynb
+
+## Wrap-Up
+* Decoder SLMs work reasonably well on all current GPUs
+* Might even make sense when better hardware is available because of latency and load
+* Harder tasks need stronger models
+* A more powerful model might be a game changer
+* Quantize larger models to fit into GPUs with less memory
+* However, prediction can become a lot slower
+* Finally: would even an Encoder SLM do the job?  
+
+## Optional - Evaluation
 
 ### Hints / Generals Rules of Thumb
 * Especially important for smaller / weaker models
