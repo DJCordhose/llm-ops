@@ -13,8 +13,9 @@ https://bit.ly/odsc-2024-on-prem-llm
 1. Request access to gated Huggingface models:
    1. https://huggingface.co/meta-llama/Meta-Llama-3.1-8B-Instruct 
    1. https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct
+   1. https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct"
 
-## Notebooks
+## Notebooks running on Colab
 * https://colab.research.google.com/github/DJCordhose/llm-ops/blob/main/Past.ipynb
 * https://colab.research.google.com/github/DJCordhose/llm-ops/blob/main/Present.ipynb
 * https://colab.research.google.com/github/DJCordhose/llm-ops/blob/main/Present-OpenAI.ipynb
