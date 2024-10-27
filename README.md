@@ -92,6 +92,15 @@ Most straight forward approach to quantization
 * Can go down to 4 Bits: https://huggingface.co/blog/4bit-transformers-bitsandbytes  
 * Inference can be slower than more sophisticated methods (like GPTQ) or full FP16 precision: https://huggingface.co/blog/hf-bitsandbytes-integration#is-it-faster-than-native-models 
 
+### Quantization 4-Bit / 8-Bit
+* 4-Bit (FP4): https://huggingface.co/blog/4bit-transformers-bitsandbytes
+  * computation is not done in 4bit, the weights and activations are compressed to that format and the computation is still kept in native dtype
+* 8-Bit (LLM.int8()): https://huggingface.co/blog/hf-bitsandbytes-integration#a-gentle-summary-of-llmint8-zero-degradation-matrix-multiplication-for-large-language-models
+  * performs the matrix multiplication of the outliers in FP16 and the non-outliers in int8
+
+### Memory consumption for Lllama 3.1 models
+- How much memory does Llama 3.1 need for weights and cache (depending on the actually used context length) https://huggingface.co/blog/llama31#inference-memory-requirements
+- Detailed, but still comprehensive explanation of how inference in LLMs works: https://developer.nvidia.com/blog/mastering-llm-techniques-inference-optimization/
 
 ### Demo
 * https://colab.research.google.com/github/DJCordhose/llm-ops/blob/main/Present.ipynb
