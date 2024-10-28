@@ -192,14 +192,16 @@ Mixtral 8x7B on 2xH100 NVL using TGI
 
 ## Past - Encoder Models
 
+Sometimes less is more
+
 ### Transformers, LLMs, Encoder, Decoder
 ![image](https://github.com/user-attachments/assets/5504cc9d-53be-41dc-820a-41ce43287f78)
 
 * *Transformers*: A flexible architecture that uses self-attention to process sequential data efficiently.
 * *LLMs*: Large-scale Transformer models trained on extensive text datasets to perform various language tasks.
-  * *Encoder Models* 
-    * Part of the Transformer architecture focused on understanding and interpreting input data (e.g. BERT)
-    * Instrumental for Embedding Models
+* *Encoder Models* 
+  * Part of the Transformer architecture focused on understanding and interpreting input data (e.g. BERT)
+  * Instrumental for Embedding Models
 * *Decoder Models*
   * Part of the Transformer architecture focused on generating sequential output based on the interpreted inputs or prior outputs
   * Instrumental for GPT-style Models like Llama, Mistral or OpenAI GPT
