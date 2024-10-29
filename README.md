@@ -189,6 +189,11 @@ Mixtral 8x7B on 2xH100 NVL using TGI
   * https://github.com/ollama/ollama 
   * https://www.theregister.com/2024/03/17/ai_pc_local_llm/ 
 
+### Alternative: Anonymize or use Safe Guards
+* Filter: https://huggingface.co/meta-llama/Llama-Guard-3-1B
+* Find and mask entities
+  * https://huggingface.co/flair/ner-english
+  * https://huggingface.co/flair/ner-german
 
 ## Past - Encoder Models
 
